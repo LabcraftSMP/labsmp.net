@@ -43,13 +43,15 @@ for (let i = 0; i < channels.length; i++) {
 let prepped = 0;
 window.getPlaylistInfo = function (data) {
 	prepped += 1;
-	try {
+	if (data.items) {
 		for (let j = 0; j < data.items.length; j++) {
 			videosIds.push(data.items[j].contentDetails.videoId);
 		}
-	} catch {
-		console.log("Something bad happened. It's probably Youtube's fault tbh");
+	} else {
+		console.log("Youtube returned with nothing? Rude. Anyways here's what they sent:");
+		console.log(data);
 	}
+	
 }
 
 let totalToLoad = 0;
