@@ -45,7 +45,7 @@ window.getPlaylistInfo = function (data) {
 	prepped += 1;
 	if (data.items) {
 		for (let j = 0; j < data.items.length; j++) {
-			videosIds.push(data.items[j].contentDetails.videoId);
+			videoIds.push(data.items[j].contentDetails.videoId);
 		}
 	} else {
 		console.log("Youtube returned with nothing? Rude. Anyways here's what they sent:");
