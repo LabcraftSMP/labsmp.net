@@ -20,7 +20,7 @@ let channelNames = [
 
 let loaded = false;
 let videos = [];
-let videosString = '';
+let videoIds = [];
 let today = new Date();
 let days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 let months = ['January','February','March','April','May','June','July','August','Septemeber','October','November','December'];
@@ -45,25 +45,40 @@ window.getPlaylistInfo = function (data) {
 	prepped += 1;
 	try {
 		for (let j = 0; j < data.items.length; j++) {
-			if (j > 0) {
-				videosString += "%2C";
-			}
-			videosString += data.items[j].contentDetails.videoId;
+			videosIds.push(data.items[j].contentDetails.videoId);
 		}
 	} catch {
 		console.log("Something bad happened. It's probably Youtube's fault tbh");
 	}
 }
 
+let totalToLoad = 0;
 function loadVidInfo() {
 	if (prepped == channels.length) {
 		$(function () {
-			let GOOGLE_API_URL = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=' + videosString + '&key=' + API_KEY + '&callback=getVideoInfo';
-			$.ajax({
-				url: GOOGLE_API_URL,
-				dataType: 'jsonp',
-				crossDomain: true
-			});
+			while (videoIds.length > 0) {
+				videosString = '';
+				for (let j = 0; j < 8; j++) {
+					let exists = null;
+					if (videoIds[j]) {
+						exists = j + 1;
+						if (j > 0) {
+							videosString += "%2C";
+						}
+						videosString += videoIds[j];
+					}
+				}
+				if (exists) {
+					videoIds.splice(0, exists);
+				}
+				totalToLoad++;
+				let GOOGLE_API_URL = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=' + videosString + '&key=' + API_KEY + '&callback=getVideoInfo';
+				$.ajax({
+					url: GOOGLE_API_URL,
+					dataType: 'jsonp',
+					crossDomain: true
+				});
+			}
 		});
 	} else {
 		setTimeout(loadVidInfo, 250);
@@ -85,9 +100,9 @@ function parseISODuration(duration) {
     };
 };
 
+let loadedTotal = 0;
 window.getVideoInfo = function (data) {
 	console.log(data);
-
 	for (let j = 0; j < data.items.length; j++) {
 		let item = data.items[j];
 		let str = "<a href='https://youtu.be/"
@@ -135,8 +150,8 @@ window.getVideoInfo = function (data) {
 				str += " " + type + " ago";
 			}
 		} else if (today.getMonth() !== date.getMonth() || today.getFullYear() !== date.getFullYear()) {
-			str += days[date.getDay()];
-			str += months[date.getMonth()];
+			str += days[date.getDay()] + " ";
+			str += months[date.getMonth()] + " ";
 			str += date.getDate();
 			if (today.getFullYear() !== date.getFullYear()) {
 				str += ", "
@@ -176,7 +191,10 @@ window.getVideoInfo = function (data) {
 			date: date
 		});
 	}
-	loaded = true;
+	loadedTotal++;
+	if (loadedTotal == totalToLoad) {
+		loaded = true;
+	}
 }
 
 function displayVideos() {
