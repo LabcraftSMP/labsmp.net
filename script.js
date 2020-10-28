@@ -60,8 +60,8 @@ function loadVidInfo() {
 		$(function () {
 			while (videoIds.length > 0) {
 				videosString = '';
+				let exists = null;
 				for (let j = 0; j < 8; j++) {
-					let exists = null;
 					if (videoIds[j]) {
 						exists = j + 1;
 						if (j > 0) {
