@@ -112,8 +112,8 @@ a {
 }
 .head-img {
     width: 256px;
-    height: 144px;
-    margin: -10px;
+    height: 82px;
+    margin: 10px;
 }
 .member {
     display: flex;
