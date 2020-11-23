@@ -125,7 +125,7 @@ window.getVideoInfo = function (data) {
 		str += "</p><p>" + item.statistics.viewCount + " views &#8226; ";
 		let date = new Date(new Date(item.snippet.publishedAt.slice(0, -1)).toLocaleString());
 		if (today.getMonth() == date.getMonth() && today.getFullYear() == date.getFullYear()) {
-			let difference = today.getTime() - date.getTime() + 18120000;
+			let difference = today.getTime() - date.getTime() + 25320000;
 			let amt = null;
 			let type = null;
 			if (difference < 86400000) {
