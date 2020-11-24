@@ -163,4 +163,9 @@ button:active {
 }
 .pointer {
     cursor: pointer;
+    border: 5px solid rgba(0,0,0,0);
+    border-radius: 24px;
+}
+.pointer:hover {
+    border: 5px solid white;
 }
