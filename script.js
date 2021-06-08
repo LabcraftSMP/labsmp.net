@@ -3,9 +3,7 @@ let channels = [
 	"UU9DhlhRVyuGAMxIA9rYxIsw", //rebot333
 	"UU8eLK3cRQ8xfBS-cpynkh-g", //The Sound Barrier
 	"UUOe2LA-NMlPQur2YiTOOJRw", //Oranje Joose
-	"UUDuIdq9epBul4AhVq68RF2w", //Alyk
-	"UUuQ1xCChyfC4m5ruoimdXPQ", //Story Time With Gay
-	"UU9byPIhh5sIF8zhcZXnzIag"  //I T F
+	"UUDuIdq9epBul4AhVq68RF2w"  //Alyk
 ];
 
 let channelNames = [
