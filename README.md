@@ -1,2 +1,2 @@
-# LardAssBrethren.github.io
-Site for the Lard Ass Brethren group
+# LabcraftSMP.github.io
+Site for the labrarians
