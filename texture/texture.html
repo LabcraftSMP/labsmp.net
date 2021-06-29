@@ -1,0 +1,34 @@
+  
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Texture Creator</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="FileSaver.min.js" defer></script>
+        <script src="jszip.min.js" defer></script>
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <div>
+            <h1>LAB Custom Texture Maker</h1>
+            <img src="#", id="previewImage">
+            <table>
+                <tr>
+                    <td><label for="imageInput">Texture:</label></td>
+                    <td><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
+                </tr>
+                <tr>
+                    <td><label for="itemID">Item ID:</label></td>
+                    <td><input type="text", id="itemID", placeholder="iron_sword", onchange="changeID(this.value)"></td>
+                </tr>
+                <tr>
+                    <td><label for="textureName">Texture Name:</label></td>
+                    <td><input type="text", id="textureName", placeholder="MyEpicSword", onchange="changeName(this.value)"></td>
+                </tr>
+            </table>
+            <p>Only use this link to make 1 texture. Any other textures you make with this link will fail once they're attempted to be added.</p>
+            <p>When you are done, download below and send the zip to <b>rebot333</b></p>
+            <button onclick="download()">Download</button>
+        </div>
+    </body>
+</html>
