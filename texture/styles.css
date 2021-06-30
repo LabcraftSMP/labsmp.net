@@ -9,7 +9,7 @@ div {
     align-items: center;
 }
 body, html {
-    background: linear-gradient(#62849c, #2c4558);
+    background: linear-gradient(#62849c, #2c4558) fixed;
     height: 100%;
 }
 label {
