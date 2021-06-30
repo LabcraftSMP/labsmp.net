@@ -41,7 +41,7 @@ function download() {
         zip.file('texture.png', img);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
-            saveAs(content, 'ltxtr_' + tName);
+            saveAs(content, 'ltxtr_' + tName + '_' + username);
         });
     } else alert('Please fill out all the fields!');
 }
