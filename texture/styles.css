@@ -44,3 +44,6 @@ h1, p {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
+button {
+    margin-bottom: 100px;
+}
