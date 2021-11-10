@@ -11,25 +11,49 @@
     <body>
         <div>
             <h1>LAB Custom Texture Maker</h1>
-            <img src="#", id="previewImage">
+            <div class="row">
+                <img src="#", id="previewImage">
+                <img src="#", id="previewModelImage" style="display: none;">
+            </div>
             <table>
                 <tr>
                     <td><label for="imageInput">Texture:</label></td>
-                    <td><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
+                    <td colspan="2"><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
+                </tr>
+                <tr id="modelImageRow" style="opacity: 0;">
+                    <td><label for="modelImageInput">Model Texture:</label></td>
+                    <td colspan="2"><input disabled type="file", accept="image/png", onchange="changeModelImage(this)", id="modelImageInput"></td>
+                </tr>
+                <tr id="specialRow" style="margin-top: 50px;">
+                    <td><label for="special">Special Items:<input type="checkbox" id="special" onchange="changeType(this.checked)"></label></td>
+                    <td><select disabled id="special0" onchange="changeIDSpecial()">
+                        <option>None</option>
+                        <option>Iron</option>
+                        <option>Golden</option>
+                        <option>Diamond</option>
+                        <option>Netherite</option>
+                    </select></td>
+                    <td><select disabled id="special1" onchange="changeIDSpecial()">
+                        <option>None</option>
+                        <option>Helmet</option>
+                        <option>Chestplate</option>
+                        <option>Leggings</option>
+                        <option>Boots</option>
+                    </select></td>
                 </tr>
                 <tr>
                     <td><label for="itemID">Item ID:</label></td>
-                    <td><input type="text", id="itemID", placeholder="iron_sword", onchange="changeID(this.value)"></td>
+                    <td colspan="2"><input type="text", id="itemID", placeholder="iron_sword", onchange="changeID(this.value)"></td>
                 </tr>
                 <tr>
                     <td><label for="textureName">Texture Name:</label></td>
-                    <td><input type="text", id="textureName", placeholder="MyEpicSword", onchange="changeName(this.value)"></td>
+                    <td colspan="2"><input type="text", id="textureName", placeholder="MyEpicSword", onchange="changeName(this.value)"></td>
                 </tr>
             </table>
             <p>Do not attempt to make textures for blocks, armor, or 3D items at this point in time. Thanks</p>
             <p>Only use this link to make 1 texture. Any other textures you make with this link will fail once they're attempted to be added.</p>
             <p>When you are done, download below and send the zip to <b>rebot333</b></p>
-            <button onclick="download()">Download</button>
+            <button disabled onclick="download()" id="download" style="margin-bottom: 100px;">Download</button>
         </div>
     </body>
 </html>
