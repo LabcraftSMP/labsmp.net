@@ -2,7 +2,7 @@ let channels = [
 	"UU5yp071-EwMIvsm807zmHmw", //Opticality
 	"UU9DhlhRVyuGAMxIA9rYxIsw", //rebot333
 	"UU8eLK3cRQ8xfBS-cpynkh-g", //The Sound Barrier
-	"UUOe2LA-NMlPQur2YiTOOJRw", //Oranje Joose
+	"UUrTvjeY8yiKsOG5aQrAfRuA", //Oranje Joose
 	"UUDuIdq9epBul4AhVq68RF2w"  //Alyk
 ];
 
