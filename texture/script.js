@@ -14,15 +14,16 @@ let img = null,
     tName = null;
 
 preview.addEventListener('load', () => {
-    if (spec == 'hat' && 
-    (preview.naturalWidth  != 64 ||
-    preview.naturalHeight != 64)) {
-        preview.src = '#';
-        imageInput.value = null;
-        img = null;
-        alert('Image must be 64x64!');
+    if (spec == 'hat') {
+        if (preview.naturalWidth  != 64 ||
+        preview.naturalHeight != 64) {
+            preview.src = '#';
+            imageInput.value = null;
+            img = null;
+            alert('Image must be 64x64!');
+        }
     } else if (preview.naturalWidth  != 16 ||
-        preview.naturalHeight != 16) {
+    preview.naturalHeight != 16) {
         preview.src = '#';
         imageInput.value = null;
         img = null;
@@ -120,7 +121,7 @@ function download() {
         let zip = new JSZip();
         zip.file('params.json', JSON.stringify(json));
         zip.file('texture.png', img);
-        if (spec) zip.file('model_texture.png', modImg);
+        if (spec && spec != 'hat') zip.file('model_texture.png', modImg);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
             saveAs(content, 'ltxtr_' + tName + '_' + username);
