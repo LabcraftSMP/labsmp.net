@@ -20,12 +20,18 @@
                     <td><label for="imageInput">Texture:</label></td>
                     <td colspan="2"><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
                 </tr>
-                <tr id="modelImageRow" style="opacity: 0;">
+                <tr id="modelImageRow" style="display: none;">
                     <td><label for="modelImageInput">Model Texture:</label></td>
                     <td colspan="2"><input disabled type="file", accept="image/png", onchange="changeModelImage(this)", id="modelImageInput"></td>
                 </tr>
                 <tr id="specialRow" style="margin-top: 50px;">
-                    <td><label for="special">Special Items:<input type="checkbox" id="special" onchange="changeType(this.checked)"></label></td>
+                    <td>
+                        <label for="special">Special Items:
+                        <input type="checkbox" id="special" onclick="return false;"></label>
+                        <!--<input type="checkbox" id="special" onchange="changeType(this.checked)">-->
+                    </td>
+                    <td><span>Currently disabled.</span></td>
+                    <!--
                     <td><select disabled id="special0" onchange="changeIDSpecial()">
                         <option>None</option>
                         <option>Iron</option>
@@ -40,6 +46,17 @@
                         <option>Leggings</option>
                         <option>Boots</option>
                     </select></td>
+                    -->
+                </tr>
+                <tr id="hatRow">
+                    <td>
+                        <label for="hat">Custom Hat
+                        <input type="checkbox" id="hat" onchange="changeType(this.checked, 'hat')"></label>
+                    </td>
+                    <td colspan="2"><span>
+                        <button onclick="downloadHatTemplate()">Download Template Pack</button>
+                        <a href="#" onclick="alert('To get the template hat, use /give @s carved_pumpkin{CustomModelData:1}');">(?)</a>
+                    </span></td>
                 </tr>
                 <tr>
                     <td><label for="itemID">Item ID:</label></td>
