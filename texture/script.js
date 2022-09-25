@@ -131,8 +131,8 @@ function download() {
 
 function downloadHatTemplate() {
     const link = document.createElement('a');
-    link.href = 'lab_hat_template.zip';
-    link.download = 'lab_hat_template.zip';
+    link.href = 'lab_hat_template_UNZIP_ME.zip';
+    link.download = 'lab_hat_template_UNZIP_ME.zip';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
