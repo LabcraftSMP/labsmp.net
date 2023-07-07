@@ -13,40 +13,26 @@
             <h1>LAB Custom Texture Maker</h1>
             <div class="row">
                 <img src="#", id="previewImage">
-                <img src="#", id="previewModelImage" style="display: none;">
+                <img src="#", id="previewImage2" style="display: none;">
             </div>
             <table>
                 <tr>
                     <td><label for="imageInput">Texture:</label></td>
                     <td colspan="2"><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
                 </tr>
-                <tr id="modelImageRow" style="display: none;">
-                    <td><label for="modelImageInput">Model Texture:</label></td>
-                    <td colspan="2"><input disabled type="file", accept="image/png", onchange="changeModelImage(this)", id="modelImageInput"></td>
+                <tr id="image2Row" style="display: none;">
+                    <td><label for="image2Input">Texture 2:</label></td>
+                    <td colspan="2"><input disabled type="file", accept="image/png", onchange="changeImage2(this)", id="image2Input"></td>
                 </tr>
                 <tr id="specialRow" style="margin-top: 50px;">
                     <td>
-                        <label for="special">Special Items:
-                        <input type="checkbox" id="special" onclick="return false;"></label>
-                        <!--<input type="checkbox" id="special" onchange="changeType(this.checked)">-->
+                        <label for="specialToggle">Special Items:
+                        <input type="checkbox" id="specialToggle" onchange="changeType(this.checked)"></label>
                     </td>
-                    <td><span>Currently disabled.</span></td>
-                    <!--
-                    <td><select disabled id="special0" onchange="changeIDSpecial()">
+                    <td><select disabled id="special" onchange="changeID(this.value.toLowerCase())">
                         <option>None</option>
-                        <option>Iron</option>
-                        <option>Golden</option>
-                        <option>Diamond</option>
-                        <option>Netherite</option>
+                        <option>Bundle</option>
                     </select></td>
-                    <td><select disabled id="special1" onchange="changeIDSpecial()">
-                        <option>None</option>
-                        <option>Helmet</option>
-                        <option>Chestplate</option>
-                        <option>Leggings</option>
-                        <option>Boots</option>
-                    </select></td>
-                    -->
                 </tr>
                 <tr id="hatRow">
                     <td>
@@ -60,7 +46,7 @@
                 <tr>
                     <td>
                         <label for="tiny">Tiny
-                        <input type="checkbox" id="tiny" onchange="changeType(this.checked, 'tiny')"></label>
+                        <input type="checkbox" id="tiny" onchange="changeTiny(this.checked)"></label>
                     </td>
                     <td colspan="2"><span>Makes your item tiny</span></td>
                 </tr>

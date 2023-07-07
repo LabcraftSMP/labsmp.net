@@ -55,7 +55,8 @@ input:disabled {
     background: linear-gradient(to right, #c0c8cf , #929ba5);
 }
 select {
-    width: 106%;
+    width: 103%;
+    height: 106%;
 }
 table, tr, td {
     padding: 0px 5px;

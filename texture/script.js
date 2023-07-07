@@ -3,13 +3,14 @@ const urlParams = new URLSearchParams(window.location.search),
       username = urlParams.get('username');
 
 preview = document.querySelector('#previewImage');
-modelPreview = document.querySelector('#previewModelImage');
+preview2 = document.querySelector('#previewImage2');
 imageInput = document.querySelector('#imageInput');
-modelImageInput = document.querySelector('#modelImageInput');
+image2Input = document.querySelector('#image2Input');
 
 let img = null,
-    modImg = null,
+    img2 = null,
     spec = false,
+    tiny = false,
     id = null,
     tName = null;
 
@@ -31,13 +32,13 @@ preview.addEventListener('load', () => {
     }
 });
 
-modelPreview.addEventListener('load', () => {
-    if (modelPreview.naturalWidth  != 64 ||
-        modelPreview.naturalHeight != 32) {
-        modelPreview.src = '#';
-        modelImageInput.value = null;
-        modImg = null;
-        alert('Image must be 64x32!');
+preview2.addEventListener('load', () => {
+    if (preview2.naturalWidth  != 16 ||
+        preview2.naturalHeight != 16) {
+        preview2.src = '#';
+        image2Input.value = null;
+        img2 = null;
+        alert('Image must be 16x16!');
     }
 });
 
@@ -48,23 +49,21 @@ function updateEnabled() {
     if (spec == 'hat') {
         document.getElementById("itemID").disabled = true;
         document.getElementById("tiny").disabled = true;
-    } else if (spec == 'tiny') {
-        document.getElementById("hat").disabled = true;
     } else if (spec) {
-        document.getElementById("special0").disabled = false;
-        document.getElementById("special1").disabled = false;
+        document.getElementById("special").disabled = false;
         document.getElementById("itemID").disabled = true;
-        if (document.getElementById("special0").value == "None" ||
-            document.getElementById("special1").value == "None")
+        document.getElementById("hat").disabled = true;
+        if (document.getElementById("special").value == "None")
             dlEnabled = false;
-        if (!modImg) dlEnabled = false;
+        if (!img2) dlEnabled = false;
     } else {
-        //document.getElementById("special0").disabled = true;
-        //document.getElementById("special1").disabled = true;
+        document.getElementById("special").disabled = true;
         document.getElementById("itemID").disabled = false;
         document.getElementById("tiny").disabled = false;
         document.getElementById("hat").disabled = false;
     }
+    
+    if (tiny) document.getElementById("hat").disabled = true;
     if (dlEnabled) document.getElementById("download").disabled = false;
 }
 
@@ -74,9 +73,9 @@ function changeImage(input) {
     updateEnabled();
 }
 
-function changeModelImage(input) {
-    modImg = input.files[0];
-    modelPreview.src = URL.createObjectURL(modImg);
+function changeImage2(input) {
+    img2 = input.files[0];
+    preview2.src = URL.createObjectURL(img2);
     updateEnabled();
 }
 
@@ -89,30 +88,28 @@ function changeType(input, type) {
         img = null;
         id = 'carved_pumpkin';
         changeID(id);
-    } else if (type == 'tiny') {
-        spec = input ? type : false;
     } else if (spec) {
-        document.getElementById("previewModelImage").style = "height: 256px;";
-        document.getElementById("modelImageInput").disabled = false;
-        document.getElementById("modelImageRow").style = "";
-        changeIDSpecial()
+        document.getElementById("previewImage2").style = "";
+        document.getElementById("image2Input").disabled = false;
+        document.getElementById("image2Row").style = "";
+        changeID("")
     } else {
-        document.getElementById("previewModelImage").style = "display: none;";
-        document.getElementById("modelImageInput").disabled = true;
-        document.getElementById("modelImageRow").style = "display: none;";
+        document.getElementById("previewImage2").style = "display: none;";
+        document.getElementById("image2Input").disabled = true;
+        document.getElementById("image2Row").style = "display: none;";
         id = null;
     }
+    updateEnabled();
+}
+
+function changeTiny(value) {
+    tiny = value;
     updateEnabled();
 }
 
 function changeID(input) {
     id = input.replace(/\s/g, '');
     document.querySelector('#itemID').value = id;
-    updateEnabled();
-}
-
-function changeIDSpecial() {
-    id = document.getElementById("special0").value.toLowerCase() + "_" + document.getElementById("special1").value.toLowerCase();
     updateEnabled();
 }
 
@@ -129,7 +126,7 @@ function download() {
         let zip = new JSZip();
         zip.file('params.json', JSON.stringify(json));
         zip.file('texture.png', img);
-        if (spec && spec != 'hat' && spec != 'tiny') zip.file('model_texture.png', modImg);
+        if (spec && spec != 'hat' && spec != 'tiny') zip.file('texture_2.png', img2);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
             saveAs(content, 'ltxtr_' + tName + '_' + username);
