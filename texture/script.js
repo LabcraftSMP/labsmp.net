@@ -47,6 +47,9 @@ function updateEnabled() {
     if (!img || !tName || !id) dlEnabled = false;
     if (spec == 'hat') {
         document.getElementById("itemID").disabled = true;
+        document.getElementById("tiny").disabled = true;
+    } else if (spec == 'tiny') {
+        document.getElementById("hat").disabled = true;
     } else if (spec) {
         document.getElementById("special0").disabled = false;
         document.getElementById("special1").disabled = false;
@@ -59,6 +62,8 @@ function updateEnabled() {
         //document.getElementById("special0").disabled = true;
         //document.getElementById("special1").disabled = true;
         document.getElementById("itemID").disabled = false;
+        document.getElementById("tiny").disabled = false;
+        document.getElementById("hat").disabled = false;
     }
     if (dlEnabled) document.getElementById("download").disabled = false;
 }
@@ -84,6 +89,8 @@ function changeType(input, type) {
         img = null;
         id = 'carved_pumpkin';
         changeID(id);
+    } else if (type == 'tiny') {
+        spec = input ? type : false;
     } else if (spec) {
         document.getElementById("previewModelImage").style = "height: 256px;";
         document.getElementById("modelImageInput").disabled = false;
@@ -118,10 +125,11 @@ function changeName(input) {
 function download() {
     if (img && id && tName && key && username) {
         let json = {'id':id, 'name':tName, 'key': key, 'username': username};
+        if (spec == 'tiny') json.tiny = true;
         let zip = new JSZip();
         zip.file('params.json', JSON.stringify(json));
         zip.file('texture.png', img);
-        if (spec && spec != 'hat') zip.file('model_texture.png', modImg);
+        if (spec && spec != 'hat' && spec != 'tiny') zip.file('model_texture.png', modImg);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
             saveAs(content, 'ltxtr_' + tName + '_' + username);

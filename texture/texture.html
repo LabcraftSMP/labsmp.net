@@ -58,6 +58,13 @@
                     </span></td>
                 </tr>
                 <tr>
+                    <td>
+                        <label for="tiny">Tiny
+                        <input type="checkbox" id="tiny" onchange="changeType(this.checked, 'tiny')"></label>
+                    </td>
+                    <td colspan="2"><span>Makes your item tiny</span></td>
+                </tr>
+                <tr>
                     <td><label for="itemID">Item ID:</label></td>
                     <td colspan="2"><input type="text", id="itemID", placeholder="iron_sword", onchange="changeID(this.value)"></td>
                 </tr>
@@ -68,7 +75,7 @@
             </table>
             <p>Do not attempt to make textures for blocks or 3D items at this point in time. Thanks</p>
             <p>Only use this link to make 1 texture. Any other textures you make with this link will fail once they're attempted to be added.</p>
-            <p>When you are done, download below and send the zip to <b>rebot333</b></p>
+            <p>When you are done, download below and send the zip to <b>chililisoup</b></p>
             <button disabled onclick="download()" id="download" style="margin-bottom: 100px;">Download</button>
         </div>
     </body>
