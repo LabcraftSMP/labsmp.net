@@ -122,11 +122,11 @@ function changeName(input) {
 function download() {
     if (img && id && tName && key && username) {
         let json = {'id':id, 'name':tName, 'key': key, 'username': username};
-        if (spec == 'tiny') json.tiny = true;
+        if (tiny) json.tiny = true;
         let zip = new JSZip();
         zip.file('params.json', JSON.stringify(json));
         zip.file('texture.png', img);
-        if (spec && spec != 'hat' && spec != 'tiny') zip.file('texture_2.png', img2);
+        if (spec && spec != 'hat') zip.file('texture_2.png', img2);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
             saveAs(content, 'ltxtr_' + tName + '_' + username);
