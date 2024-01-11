@@ -1,0 +1,67 @@
+  
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Texture Creator</title>
+        <link rel="stylesheet" href="texture/styles.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="texture/script.js" defer></script>
+    </head>
+    <body>
+        <div>
+            <h1>LAB Custom Texture Maker</h1>
+            <div class="row">
+                <img src="#", id="previewImage">
+                <img src="#", id="previewImage2" style="display: none;">
+            </div>
+            <table>
+                <tr>
+                    <td><label for="imageInput">Texture:</label></td>
+                    <td colspan="2"><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
+                </tr>
+                <tr id="image2Row" style="display: none;">
+                    <td><label for="image2Input">Texture 2:</label></td>
+                    <td colspan="2"><input disabled type="file", accept="image/png", onchange="changeImage2(this)", id="image2Input"></td>
+                </tr>
+                <tr id="specialRow" style="margin-top: 50px;">
+                    <td>
+                        <label for="specialToggle">Special Items:
+                        <input type="checkbox" id="specialToggle" onchange="changeType(this.checked)"></label>
+                    </td>
+                    <td><select disabled id="special" onchange="changeID(this.value.toLowerCase())">
+                        <option>None</option>
+                        <option>Bundle</option>
+                    </select></td>
+                </tr>
+                <tr id="hatRow">
+                    <td>
+                        <label for="hat">Custom Hat
+                        <input type="checkbox" id="hat" onchange="changeType(this.checked, 'hat')"></label>
+                    </td>
+                    <td colspan="2"><span>
+                        <button onclick="downloadHatTemplate()">Download Template Pack</button>
+                    </span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="tiny">Tiny
+                        <input type="checkbox" id="tiny" onchange="changeTiny(this.checked)"></label>
+                    </td>
+                    <td colspan="2"><span>Makes your item tiny</span></td>
+                </tr>
+                <tr>
+                    <td><label for="itemID">Item ID:</label></td>
+                    <td colspan="2"><input type="text", id="itemID", placeholder="iron_sword", onchange="changeID(this.value)"></td>
+                </tr>
+                <tr>
+                    <td><label for="textureName">Texture Name:</label></td>
+                    <td colspan="2"><input type="text", id="textureName", placeholder="MyEpicSword", onchange="changeName(this.value)"></td>
+                </tr>
+            </table>
+            <p>Do not attempt to make textures for blocks or 3D items at this point in time. Thanks</p>
+            <p>When you are done, download below and send the zip to <b>chililisoup</b></p>
+            <button disabled onclick="download()" id="download" style="margin-bottom: 100px;">Download</button>
+        </div>
+    </body>
+</html>

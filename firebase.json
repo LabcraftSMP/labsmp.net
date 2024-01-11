@@ -1,0 +1,32 @@
+{
+  "hosting": {
+    "public": "src",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/about",
+        "destination": "/about.html"
+      },
+      {
+        "source": "/rules",
+        "destination": "/rules.html"
+      },
+      {
+        "source": "/minecraft",
+        "destination": "/minecraft.html"
+      },
+      {
+        "source": "/texture",
+        "destination": "/texture.html"
+      }
+    ]
+  }
+}

@@ -1,2 +1,2 @@
-# LabcraftSMP.github.io
+# labsmp.net
 Site for the labrarians
