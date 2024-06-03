@@ -135,7 +135,7 @@ function download() {
 
 function downloadHatTemplate() {
     const link = document.createElement('a');
-    link.href = 'lab_hat_template_UNZIP_ME.zip';
+    link.href = 'https://github.com/LabcraftSMP/labsmp.net/raw/main/src/texture/lab_hat_template_UNZIP_ME.zip';
     link.download = 'lab_hat_template_UNZIP_ME.zip';
     document.body.appendChild(link);
     link.click();
