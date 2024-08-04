@@ -1,0 +1,57 @@
+html, body {
+    background-color: #372e50;
+    padding: none;
+    margin: none;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: none;
+    margin: none;
+    min-height: 98vh;
+}
+
+canvas {
+    width: 90vw;
+    height: 90vh;
+    background-color: white;
+    border: 10px solid #aca0b6;
+    box-shadow: 0 0 15px 15px #1d182b80;
+}
+
+#settings {
+    position: absolute;
+    left: 0;
+    top: 15px;
+    display: flex;
+}
+
+#settings-content {
+    background-color: white;
+    margin: 0 5px;
+    padding: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#settings-content, #settings-button {
+    outline: 5px solid #465f94;
+}
+
+#settings-button {
+    padding: 3px 10px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+label {
+    user-select: none;
+}
