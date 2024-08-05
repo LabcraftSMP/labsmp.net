@@ -26,6 +26,10 @@
       {
         "source": "/texture",
         "destination": "/texture.html"
+      },
+      {
+        "source": "/mailmap",
+        "destination": "/mailmap.html"
       }
     ]
   }
