@@ -10,7 +10,7 @@
             <canvas id="canvas"></canvas>
         </div>
         <div id="settings">
-            <div id="settings-content" hidden="true">
+            <div id="settings-content" class="menu-content" hidden="true">
                 <label for="stopSize">Stop Size</label>
                 <input id="stopSize" value="10" type="range" min="2" max="20" step="0.1" oninput="adjustSetting('stopSize', Number(this.value))" />
                 <label for="lineWidth">Line Width</label>
@@ -19,7 +19,48 @@
                 <input id="fontSize" value="24" type="range" min="8" max="50" step="1" oninput="adjustSetting('fontSize', Number(this.value))" />
             </div>
             <div>
-                <button id="settings-button" onclick="toggleSettingsMenu()">></button>
+                <button id="settings-button" class="menu-button" onclick="toggleMenu('settings', 'left')">&gt;</button>
+            </div>
+        </div>
+        <div id="editor">
+            <div>
+                <button id="editor-button" class="menu-button" onclick="toggleMenu('editor', 'right')">&lt;</button>
+            </div>
+            <div id="editor-content" class="menu-content" hidden="true">
+                <span id="editor-files">
+                    <button onclick="document.getElementById('poi-upload').click()">Upload</button>
+                    <input id="poi-upload" type="file" accept=".json" onchange="uploadPoi(this)" />
+                    <button onclick="downloadPoi()">Download</button>
+                </span>
+                <hr>
+                <span id="editor-categories">
+                    <button id="editor-stops-button" class="selected" onclick="setEditorCategory('stops')">Stops</button>
+                    <button id="editor-rails-button" onclick="setEditorCategory('rails')">Rails</button>
+                </span>
+                <div id="editor-stops" class="editor-tab" hidden="true">
+                    <hr>
+                    <table id="editor-stops-table">
+                        <tr>
+                            <th><button class="create" onclick="createStop()">+</button></th>
+                            <th>X (OW)</th>
+                            <th>Z (OW)</th>
+                            <th>Name</th>
+                            <th>Color</th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="editor-rails" hidden="true">
+                    <hr>
+                    <table id="editor-rails-table">
+                        <tr>
+                            <th><button class="create" onclick="createRail()">+</button></th>
+                            <th>X1 (OW)</th>
+                            <th>Z1 (OW)</th>
+                            <th>X2 (OW)</th>
+                            <th>Z2 (OW)</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </body>

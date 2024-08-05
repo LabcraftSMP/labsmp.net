@@ -13,6 +13,9 @@ let offsetOld = {x:0, y:0};
 let mousePos = {x:0, y:0};
 let mousePosOld = {x:0, y:0};
 
+const stopsTable = document.getElementById("editor-stops-table");
+const railsTable = document.getElementById("editor-rails-table");
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -29,7 +32,7 @@ function updateCanvas(e) {
     };
 }
 updateCanvas();
-addEventListener("resize", e => updateCanvas(e));
+addEventListener("resize", updateCanvas);
 
 canvas.addEventListener("mousemove", e => {
     if (dragging) {
@@ -113,10 +116,10 @@ function animate() {
     ctx.setLineDash([]);
     ctx.strokeStyle = "black";
     poi.rails.forEach(rail => {
-        const x1 = rail[0] * zoom + width / 2 + offset.x;
-        const y1 = rail[1] * zoom + height / 2 + offset.y;
-        const x2 = rail[2] * zoom + width / 2 + offset.x;
-        const y2 = rail[3] * zoom + height / 2 + offset.y;
+        const x1 = (rail[0] < rail[2] ? rail[0] : rail[2]) * zoom + width / 2 + offset.x;
+        const y1 = (rail[1] < rail[3] ? rail[1] : rail[3]) * zoom + height / 2 + offset.y;
+        const x2 = (rail[0] < rail[2] ? rail[2] : rail[0]) * zoom + width / 2 + offset.x;
+        const y2 = (rail[1] < rail[3] ? rail[3] : rail[1]) * zoom + height / 2 + offset.y;
 
         drawLine(x1, y1, x2, y2);
 
@@ -177,27 +180,175 @@ fetch("mailmap/poi.json")
 .then(json => {
     poi = json;
     animate();
+    loadEditorTables();
 });
 
 
 
-function toggleSettingsMenu() {
-    const content = document.getElementById("settings-content");
-    const button = document.getElementById("settings-button");
+function toggleMenu(menu, side) {
+    const content = document.getElementById(menu + "-content");
+    const button = document.getElementById(menu + "-button");
 
     if (content.hidden) {
         content.hidden = false;
         content.style.display = "flex";
-        button.innerHTML = "<";
+        button.innerHTML = side == "left" ? "&lt;" : "&gt;";
     } else {
         content.hidden = true;
         content.style.display = "none";
-        button.innerHTML = ">";
+        button.innerHTML = side == "left" ? "&gt;" : "&lt;";
     }
 }
 
 function adjustSetting(setting, value) {
     settings[setting] = value;
+}
+
+function setEditorCategory(cat) {
+    const railsButton = document.getElementById("editor-rails-button");
+    const stopsButton = document.getElementById("editor-stops-button");
+    const rails = document.getElementById("editor-rails");
+    const stops = document.getElementById("editor-stops");
+
+    if (cat == "stops") {
+        railsButton.classList = [];
+        stopsButton.classList = ["selected"];
+        rails.classList = [];
+        stops.classList = ["editor-tab"];
+    } else {
+        railsButton.classList = ["selected"];
+        stopsButton.classList = [];
+        rails.classList = ["editor-tab"];
+        stops.classList = [];
+    }
+}
+
+function addStopEntry(stop) {
+    const row = stopsTable.insertRow();
+
+    const del = row.insertCell();
+    const x = row.insertCell();
+    const z = row.insertCell();
+    const name = row.insertCell();
+    const color = row.insertCell();
+
+    const delButton = document.createElement("button");
+    const xInput = document.createElement("input");
+    const zInput = document.createElement("input");
+    const nameInput = document.createElement("input");
+    const colorInput = document.createElement("input");
+
+    delButton.innerHTML = "X";
+    delButton.classList = ["delete"];
+    delButton.onclick = () => {
+        row.remove();
+        poi.stops = poi.stops.filter(item => item !== stop);
+    };
+
+    xInput.type = "number";
+    xInput.value = stop[0];
+    xInput.oninput = () => stop[0] = xInput.value;
+
+    zInput.type = "number";
+    zInput.value = stop[1];
+    zInput.oninput = () => stop[1] = zInput.value;
+
+    nameInput.value = stop[2];
+    nameInput.oninput = () => stop[2] = nameInput.value;
+
+    colorInput.type = "color";
+    colorInput.value = stop[3];
+    colorInput.oninput = () => stop[3] = colorInput.value;
+    
+    del.appendChild(delButton);
+    x.appendChild(xInput);
+    z.appendChild(zInput);
+    name.appendChild(nameInput);
+    color.appendChild(colorInput);
+}
+
+function createStop() {
+    const stop = [0, 0, "", "#000000"];
+    poi.stops.push(stop);
+    addStopEntry(stop);
+}
+
+function addRailEntry(rail) {
+    const row = railsTable.insertRow();
+
+    const del = row.insertCell();
+    const x1 = row.insertCell();
+    const z1 = row.insertCell();
+    const x2 = row.insertCell();
+    const z2 = row.insertCell();
+
+    const delButton = document.createElement("button");
+    const x1Input = document.createElement("input");
+    const z1Input = document.createElement("input");
+    const x2Input = document.createElement("input");
+    const z2Input = document.createElement("input");
+
+    delButton.innerHTML = "X";
+    delButton.classList = ["delete"];
+    delButton.onclick = () => {
+        row.remove();
+        poi.rails = poi.rails.filter(item => item !== rail);
+    };
+
+    x1Input.type = "number";
+    x1Input.value = rail[0];
+    x1Input.oninput = () => rail[0] = x1Input.value;
+
+    z1Input.type = "number";
+    z1Input.value = rail[1];
+    z1Input.oninput = () => rail[1] = z1Input.value;
+
+    x2Input.type = "number";
+    x2Input.value = rail[2];
+    x2Input.oninput = () => rail[2] = x2Input.value;
+
+    z2Input.type = "number";
+    z2Input.value = rail[3];
+    z2Input.oninput = () => rail[3] = z2Input.value;
+    
+    del.appendChild(delButton);
+    x1.appendChild(x1Input);
+    z1.appendChild(z1Input);
+    x2.appendChild(x2Input);
+    z2.appendChild(z2Input);
+}
+
+function createRail() {
+    const rail = [0, 0, 0, 0];
+    poi.rails.push(rail);
+    addRailEntry(rail);
+}
+
+function loadEditorTables() {
+    poi.stops.forEach(addStopEntry);
+    poi.rails.forEach(addRailEntry);
+}
+
+function uploadPoi(fileInput) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        stopsTable.firstElementChild.replaceChildren(stopsTable.firstElementChild.firstElementChild);
+        railsTable.firstElementChild.replaceChildren(railsTable.firstElementChild.firstElementChild);
+        poi = JSON.parse(reader.result);
+        loadEditorTables();
+    };
+    reader.readAsText(fileInput.files[0]);
+    fileInput.value = "";
+}
+
+function downloadPoi() {
+    const element = document.createElement("a");
+    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(poi, null, "\t")));
+    element.setAttribute("download", "poi.json");
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
 }
 
 canvas.addEventListener("wheel", e =>
