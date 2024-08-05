@@ -13,10 +13,10 @@
             <div id="settings-content" hidden="true">
                 <label for="stopSize">Stop Size</label>
                 <input id="stopSize" value="10" type="range" min="2" max="20" step="0.1" oninput="adjustSetting('stopSize', Number(this.value))" />
-                <label for="zoom">Zoom</label>
-                <input id="zoom" value="0.1" type="range" min="0.01" max="1" step="0.01" oninput="adjustSetting('zoom', Number(this.value))" />
                 <label for="lineWidth">Line Width</label>
                 <input id="lineWidth" value="3" type="range" min="0.5" max="10" step="0.1" oninput="adjustSetting('lineWidth', Number(this.value))" />
+                <label for="fontSize">Font Size</label>
+                <input id="fontSize" value="24" type="range" min="8" max="50" step="1" oninput="adjustSetting('fontSize', Number(this.value))" />
             </div>
             <div>
                 <button id="settings-button" onclick="toggleSettingsMenu()">></button>

@@ -17,7 +17,7 @@ canvas {
     width: 90vw;
     height: 90vh;
     background-color: white;
-    border: 10px solid #aca0b6;
+    outline: 10px solid #aca0b6;
     box-shadow: 0 0 15px 15px #1d182b80;
 }
 
@@ -29,7 +29,6 @@ canvas {
 }
 
 #settings-content {
-    background-color: white;
     margin: 0 5px;
     padding: 5px;
     flex-direction: column;
@@ -39,6 +38,7 @@ canvas {
 
 #settings-content, #settings-button {
     outline: 5px solid #465f94;
+    background-color: white;
 }
 
 #settings-button {
