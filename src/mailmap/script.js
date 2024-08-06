@@ -247,11 +247,11 @@ function addStopEntry(stop) {
 
     xInput.type = "number";
     xInput.value = stop[0];
-    xInput.oninput = () => stop[0] = xInput.value;
+    xInput.oninput = () => stop[0] = Number(xInput.value);
 
     zInput.type = "number";
     zInput.value = stop[1];
-    zInput.oninput = () => stop[1] = zInput.value;
+    zInput.oninput = () => stop[1] = Number(zInput.value);
 
     nameInput.value = stop[2];
     nameInput.oninput = () => stop[2] = nameInput.value;
@@ -297,19 +297,19 @@ function addRailEntry(rail) {
 
     x1Input.type = "number";
     x1Input.value = rail[0];
-    x1Input.oninput = () => rail[0] = x1Input.value;
+    x1Input.oninput = () => rail[0] = Number(x1Input.value);
 
     z1Input.type = "number";
     z1Input.value = rail[1];
-    z1Input.oninput = () => rail[1] = z1Input.value;
+    z1Input.oninput = () => rail[1] = Number(z1Input.value);
 
     x2Input.type = "number";
     x2Input.value = rail[2];
-    x2Input.oninput = () => rail[2] = x2Input.value;
+    x2Input.oninput = () => rail[2] = Number(x2Input.value);
 
     z2Input.type = "number";
     z2Input.value = rail[3];
-    z2Input.oninput = () => rail[3] = z2Input.value;
+    z2Input.oninput = () => rail[3] = Number(z2Input.value);
     
     del.appendChild(delButton);
     x1.appendChild(x1Input);
@@ -342,8 +342,25 @@ function uploadPoi(fileInput) {
 }
 
 function downloadPoi() {
+    const dlPoi = JSON.parse(JSON.stringify(poi));
+
+    dlPoi.stops.forEach((stop, i) => {
+        dlPoi.stops[i] = JSON.stringify(stop, null, " ");
+    });
+    dlPoi.rails.forEach((rail, i) => {
+        dlPoi.rails[i] = JSON.stringify(rail, null, " ");
+    });
+
+    const output = JSON.stringify(dlPoi, null, 4)
+        .replace(/\\n/g, '')
+        .replace(/\\/g, '')
+        .replace(/\"\[ /g, '[')
+        .replace(/\]\"/g,']')
+        .replace(/\"\{ /g, '{')
+        .replace(/\}\"/g,'}');
+
     const element = document.createElement("a");
-    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(poi, null, "\t")));
+    element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(output));
     element.setAttribute("download", "poi.json");
     element.style.display = "none";
     document.body.appendChild(element);
