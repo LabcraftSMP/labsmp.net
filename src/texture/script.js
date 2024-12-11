@@ -1,10 +1,13 @@
 const urlParams = new URLSearchParams(window.location.search),
       uuid = urlParams.get('uuid');
 
-preview = document.querySelector('#previewImage');
-preview2 = document.querySelector('#previewImage2');
-imageInput = document.querySelector('#imageInput');
-image2Input = document.querySelector('#image2Input');
+const preview = document.querySelector('#previewImage');
+const preview2 = document.querySelector('#previewImage2');
+const imageInput = document.querySelector('#imageInput');
+const image2Input = document.querySelector('#image2Input');
+const imageInputLabel = document.querySelector('#imageInputLabel');
+const image2InputLabel = document.querySelector('#image2InputLabel');
+const image2Row = document.querySelector('#image2Row');
 
 let img = null,
     img2 = null,
@@ -15,15 +18,19 @@ let img = null,
 
 preview.addEventListener('load', () => {
     if (spec == 'hat') {
-        if (preview.naturalWidth  != 64 ||
-        preview.naturalHeight != 64) {
+        if (
+            preview.naturalWidth  != 64 ||
+            preview.naturalHeight != 64
+        ) {
             preview.src = '#';
             imageInput.value = null;
             img = null;
             alert('Image must be 64x64!');
         }
-    } else if (preview.naturalWidth  != 16 ||
-    preview.naturalHeight != 16) {
+    } else if (
+        preview.naturalWidth  != 16 ||
+        preview.naturalHeight != 16
+    ) {
         preview.src = '#';
         imageInput.value = null;
         img = null;
@@ -32,8 +39,20 @@ preview.addEventListener('load', () => {
 });
 
 preview2.addEventListener('load', () => {
-    if (preview2.naturalWidth  != 16 ||
-        preview2.naturalHeight != 16) {
+    if (spec && id == "elytra") {
+        if (
+            preview2.naturalWidth  != 64 ||
+            preview2.naturalHeight != 32
+        ) {
+            preview2.src = '#';
+            image2Input.value = null;
+            img2 = null;
+            alert('Image must be 64x32!');
+        }
+    } else if (
+        preview2.naturalWidth  != 16 ||
+        preview2.naturalHeight != 16
+    ) {
         preview2.src = '#';
         image2Input.value = null;
         img2 = null;
@@ -88,15 +107,16 @@ function changeType(input, type) {
         id = 'carved_pumpkin';
         changeID(id);
     } else if (spec) {
-        document.getElementById("previewImage2").style = "";
-        document.getElementById("image2Input").disabled = false;
-        document.getElementById("image2Row").style = "";
-        changeID("")
+        preview2.style = "";
+        image2Input.disabled = false;
+        image2Row.style = "";
+        changeID("");
     } else {
-        document.getElementById("previewImage2").style = "display: none;";
-        document.getElementById("image2Input").disabled = true;
-        document.getElementById("image2Row").style = "display: none;";
-        id = null;
+        preview2.style = "display: none;";
+        image2Input.disabled = true;
+        image2Row.style = "display: none;";
+        document.getElementById("special").value = "None";
+        changeID("");
     }
     updateEnabled();
 }
@@ -110,6 +130,26 @@ function changeID(input) {
     id = input.replace(/\s/g, '');
     document.querySelector('#itemID').value = id;
     updateEnabled();
+
+    if (spec) {
+        preview2.style.height = "512px";
+        switch (id) {
+            case "bundle":
+                imageInputLabel.innerHTML = "Empty Texture:";
+                image2InputLabel.innerHTML = "Full Texture:";
+                break;
+            case "elytra":
+                imageInputLabel.innerHTML = "Item Texture:";
+                image2InputLabel.innerHTML = "Model Texture:";
+                preview2.style.height = "256px";
+                break;
+            default:
+                imageInputLabel.innerHTML = "Texture 1:";
+                image2InputLabel.innerHTML = "Texture 2:";
+        }
+    } else {
+        imageInputLabel.innerHTML = "Texture:";
+    }
 }
 
 function changeName(input) {
@@ -135,7 +175,7 @@ function download() {
 
 function downloadHatTemplate() {
     const link = document.createElement('a');
-    link.href = 'https://github.com/LabcraftSMP/labsmp.net/raw/main/src/texture/lab_hat_template_UNZIP_ME.zip';
+    link.href = 'lab_hat_template_UNZIP_ME.zip';
     link.download = 'lab_hat_template_UNZIP_ME.zip';
     document.body.appendChild(link);
     link.click();

@@ -1,3 +1,4 @@
+  
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -16,11 +17,11 @@
             </div>
             <table>
                 <tr>
-                    <td><label for="imageInput">Texture:</label></td>
+                    <td><label id="imageInputLabel" for="imageInput">Texture:</label></td>
                     <td colspan="2"><input type="file", accept="image/png", onchange="changeImage(this)", id="imageInput"></td>
                 </tr>
                 <tr id="image2Row" style="display: none;">
-                    <td><label for="image2Input">Texture 2:</label></td>
+                    <td><label id="image2InputLabel" for="image2Input">Texture 2:</label></td>
                     <td colspan="2"><input disabled type="file", accept="image/png", onchange="changeImage2(this)", id="image2Input"></td>
                 </tr>
                 <tr id="specialRow" style="margin-top: 50px;">
@@ -31,6 +32,7 @@
                     <td><select disabled id="special" onchange="changeID(this.value.toLowerCase())">
                         <option>None</option>
                         <option>Bundle</option>
+                        <option>Elytra</option>
                     </select></td>
                 </tr>
                 <tr id="hatRow">
