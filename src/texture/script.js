@@ -8,29 +8,20 @@ const image2Input = document.querySelector('#image2Input');
 const imageInputLabel = document.querySelector('#imageInputLabel');
 const image2InputLabel = document.querySelector('#image2InputLabel');
 const image2Row = document.querySelector('#image2Row');
+const modelRow = document.querySelector('#modelRow');
+const modelInput = document.querySelector('#modelInput');
 
 let img = null,
     img2 = null,
-    spec = false,
-    tiny = false,
-    id = null,
+    model = null,
+    resourceType = 'basic',
     tName = null;
 
 preview.addEventListener('load', () => {
-    if (spec == 'hat') {
-        if (
-            preview.naturalWidth  != 64 ||
-            preview.naturalHeight != 64
-        ) {
-            preview.src = '#';
-            imageInput.value = null;
-            img = null;
-            alert('Image must be 64x64!');
-        }
-    } else if (
+    if (resourceType != 'model' && (
         preview.naturalWidth  != 16 ||
         preview.naturalHeight != 16
-    ) {
+    )) {
         preview.src = '#';
         imageInput.value = null;
         img = null;
@@ -39,50 +30,26 @@ preview.addEventListener('load', () => {
 });
 
 preview2.addEventListener('load', () => {
-    if (spec && id == "elytra") {
-        if (
-            preview2.naturalWidth  != 64 ||
-            preview2.naturalHeight != 32
-        ) {
-            preview2.src = '#';
-            image2Input.value = null;
-            img2 = null;
-            alert('Image must be 64x32!');
-        }
-    } else if (
-        preview2.naturalWidth  != 16 ||
-        preview2.naturalHeight != 16
-    ) {
+    if (resourceType == "elytra" && (
+        preview2.naturalWidth  != 64 ||
+        preview2.naturalHeight != 32
+    )) {
         preview2.src = '#';
         image2Input.value = null;
         img2 = null;
-        alert('Image must be 16x16!');
+        alert('Image must be 64x32!');
     }
 });
 
+function isReadyForDownload() {
+    if (!img || !tName) return false;
+    if (resourceType == "elytra" && !img2) return false;
+    if (resourceType == "model" && !model) return false;
+    return true;
+}
+
 function updateEnabled() {
-    let dlEnabled = true;
-    document.getElementById("download").disabled = true;
-    if (!img || !tName || !id) dlEnabled = false;
-    if (spec == 'hat') {
-        document.getElementById("itemID").disabled = true;
-        document.getElementById("tiny").disabled = true;
-    } else if (spec) {
-        document.getElementById("special").disabled = false;
-        document.getElementById("itemID").disabled = true;
-        document.getElementById("hat").disabled = true;
-        if (document.getElementById("special").value == "None")
-            dlEnabled = false;
-        if (!img2) dlEnabled = false;
-    } else {
-        document.getElementById("special").disabled = true;
-        document.getElementById("itemID").disabled = false;
-        document.getElementById("tiny").disabled = false;
-        document.getElementById("hat").disabled = false;
-    }
-    
-    if (tiny) document.getElementById("hat").disabled = true;
-    if (dlEnabled) document.getElementById("download").disabled = false;
+    document.getElementById("download").disabled = !isReadyForDownload();
 }
 
 function changeImage(input) {
@@ -97,87 +64,54 @@ function changeImage2(input) {
     updateEnabled();
 }
 
-function changeType(input, type) {
-    spec = input;
-    if (type == 'hat') {
-        spec = input ? type : false;
-        preview.src = '#';
-        imageInput.value = null;
-        img = null;
-        id = 'carved_pumpkin';
-        changeID(id);
-    } else if (spec) {
-        preview2.style = "";
+function changeModel(input) {
+    model = input.files[0];
+    updateEnabled();
+}
+
+function changeResourceType(input) {
+    resourceType = input.replace(/\s/g, '');
+
+    imageInputLabel.innerHTML = "Texture";
+    preview2.style = "display: none;";
+    image2Input.disabled = true;
+    image2Row.style = "display: none;";
+    modelInput.disabled = true;
+    modelRow.style = "display: none;";
+
+    if (resourceType == "elytra") {
+        imageInputLabel.innerHTML = "Item Texture:";
+        image2InputLabel.innerHTML = "Wings Texture:";
+        preview2.style = "height: 256px;";
         image2Input.disabled = false;
         image2Row.style = "";
-        changeID("");
-    } else {
-        preview2.style = "display: none;";
-        image2Input.disabled = true;
-        image2Row.style = "display: none;";
-        document.getElementById("special").value = "None";
-        changeID("");
+    } else if (resourceType == "model") {
+        modelInput.disabled = false;
+        modelRow.style = "";
     }
-    updateEnabled();
-}
 
-function changeTiny(value) {
-    tiny = value;
     updateEnabled();
-}
-
-function changeID(input) {
-    id = input.replace(/\s/g, '');
-    document.querySelector('#itemID').value = id;
-    updateEnabled();
-
-    if (spec) {
-        preview2.style.height = "512px";
-        switch (id) {
-            case "bundle":
-                imageInputLabel.innerHTML = "Empty Texture:";
-                image2InputLabel.innerHTML = "Full Texture:";
-                break;
-            case "elytra":
-                imageInputLabel.innerHTML = "Item Texture:";
-                image2InputLabel.innerHTML = "Model Texture:";
-                preview2.style.height = "256px";
-                break;
-            default:
-                imageInputLabel.innerHTML = "Texture 1:";
-                image2InputLabel.innerHTML = "Texture 2:";
-        }
-    } else {
-        imageInputLabel.innerHTML = "Texture:";
-    }
 }
 
 function changeName(input) {
-    tName = input.replace(/\s/g, '');
+    tName = input.replace(/\s/g, '_').replace(/\W/g, '').toLowerCase();
     document.querySelector('#textureName').value = tName;
     updateEnabled();
 }
 
 function download() {
-    if (img && id && tName && uuid) {
-        let json = {'id':id, 'name':tName, 'uuid': uuid};
-        if (tiny) json.tiny = true;
+    if (img && resourceType && tName && uuid) {
+        let json = {'group':resourceType, 'name':tName, 'uuid': uuid};
         let zip = new JSZip();
         zip.file('params.json', JSON.stringify(json));
         zip.file('texture.png', img);
-        if (spec && spec != 'hat') zip.file('texture_2.png', img2);
+        if (resourceType == 'elytra') zip.file('wings.png', img2);
+        else if (resourceType == 'model') zip.file('model.json', model);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
-            saveAs(content, 'ltxtr_' + tName);
+            saveAs(content, 'l4r_' + tName);
         });
     } else alert('Please fill out all the fields!');
 }
 
-function downloadHatTemplate() {
-    const link = document.createElement('a');
-    link.href = 'https://github.com/LabcraftSMP/labsmp.net/raw/main/src/texture/lab_hat_template_UNZIP_ME.zip';
-    link.download = 'lab_hat_template_UNZIP_ME.zip';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+if (!uuid) alert('Invalid link! Please get one in-game by running /texture uploader');
