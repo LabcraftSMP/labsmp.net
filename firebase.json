@@ -24,8 +24,8 @@
         "destination": "/minecraft.html"
       },
       {
-        "source": "/texture",
-        "destination": "/texture.html"
+        "source": "/resource_uploader",
+        "destination": "/resource_uploader.html"
       },
       {
         "source": "/mailmap",
