@@ -14,11 +14,11 @@ const modelInput = document.querySelector('#modelInput');
 let img = null,
     img2 = null,
     model = null,
-    resourceType = 'basic',
+    resourceType = 'basic_texture',
     tName = null;
 
 preview.addEventListener('load', () => {
-    if (resourceType != 'model' && (
+    if (resourceType != 'custom_model' && (
         preview.naturalWidth  != 16 ||
         preview.naturalHeight != 16
     )) {
@@ -30,7 +30,7 @@ preview.addEventListener('load', () => {
 });
 
 preview2.addEventListener('load', () => {
-    if (resourceType == "elytra" && (
+    if (resourceType == "elytra_texture" && (
         preview2.naturalWidth  != 64 ||
         preview2.naturalHeight != 32
     )) {
@@ -43,8 +43,8 @@ preview2.addEventListener('load', () => {
 
 function isReadyForDownload() {
     if (!img || !tName) return false;
-    if (resourceType == "elytra" && !img2) return false;
-    if (resourceType == "model" && !model) return false;
+    if (resourceType == "elytra_texture" && !img2) return false;
+    if (resourceType == "custom_model" && !model) return false;
     return true;
 }
 
@@ -69,8 +69,8 @@ function changeModel(input) {
     updateEnabled();
 }
 
-function changeResourceType(input) {
-    resourceType = input.replace(/\s/g, '');
+function changeResourceType(newResourceType) {
+    resourceType = newResourceType;
 
     imageInputLabel.innerHTML = "Texture";
     preview2.style = "display: none;";
@@ -79,13 +79,13 @@ function changeResourceType(input) {
     modelInput.disabled = true;
     modelRow.style = "display: none;";
 
-    if (resourceType == "elytra") {
+    if (resourceType == "elytra_texture") {
         imageInputLabel.innerHTML = "Item Texture:";
         image2InputLabel.innerHTML = "Wings Texture:";
         preview2.style = "height: 256px;";
         image2Input.disabled = false;
         image2Row.style = "";
-    } else if (resourceType == "model") {
+    } else if (resourceType == "custom_model") {
         modelInput.disabled = false;
         modelRow.style = "";
     }
@@ -105,8 +105,8 @@ function download() {
         let zip = new JSZip();
         zip.file('params.json', JSON.stringify(json));
         zip.file('texture.png', img);
-        if (resourceType == 'elytra') zip.file('wings.png', img2);
-        else if (resourceType == 'model') zip.file('model.json', model);
+        if (resourceType == 'elytra_texture') zip.file('wings.png', img2);
+        else if (resourceType == 'custom_model') zip.file('model.json', model);
         zip.generateAsync({type:"blob"})
         .then(function(content) {
             saveAs(content, 'l4r_' + tName);
