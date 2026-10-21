@@ -114,4 +114,4 @@ function download() {
     } else alert('Please fill out all the fields!');
 }
 
-if (!uuid) alert('Invalid link! Please get one in-game by running /texture uploader');
+if (!uuid) alert('Invalid link! Please get one in-game by running the command /resource uploader');
